@@ -12,10 +12,8 @@ int main() {
     int a[n], mid, left = 0, right = n - 1;
     time++; time++;
 
-    printf("Enter the elements: ");
-    time++;
-
     for (i = 0;i < n;i++) {
+        printf("Enter the elements: ");
         time++;
         scanf("%d", &a[i]);
         time++;

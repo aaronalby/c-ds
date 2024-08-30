@@ -11,7 +11,7 @@ void main() {
     
 
     for(i = 0; i < n; i++) {
-        printf("Enter the Elemnts: "); 
+        printf("Enter the Elements: "); 
         scanf("%d", &arr[i]);
     }
 
@@ -30,4 +30,5 @@ void main() {
     for(i = 0; i<n; i++){
         printf("%d \t", arr[i]);
     }
+   printf("\n");
 }
