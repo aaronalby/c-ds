@@ -8,9 +8,10 @@ void main() {
 
     int arr[n]; 
 
-    printf("Enter the Elemnts: \n");
+    
 
     for(i = 0; i < n; i++) {
+        printf("Enter the Elemnts: "); 
         scanf("%d", &arr[i]);
     }
 
