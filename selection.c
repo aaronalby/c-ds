@@ -1,39 +1,58 @@
-#include<stdio.h>
-void main()
-{
- int a[10],i,j,min,n,temp,t=0;
- t=t+2;
-printf("enter the number of elements ");t++;
-scanf("%d",&n);t++;
+#include <stdio.h>
 
-for(i=0;i<n;i++)
-{t++;
-printf("elements of array ");t++;
-scanf("%d",&a[i]);t++;
-}t++;
-for(i=0;i<n-1;i++)
-{t++;
-min=i;
-for(j=i+1;j<n;j++)
-{t++;
-t++;if(a[j]<a[min])
-{
-min=j;
-}
-}
-t++;if(i!=min)
-{
-temp=a[i];
-a[i]=a[min];
-a[min]=temp;
-}
-}
-printf("sorted array is ");t++;
-for(i=0;i<n;i++)
-{t++;
-printf("%d\t",a[i]);t++;
+int main() {
+    int i = 0, n, j, small, temp, time=0;
+    time++;
 
-}t++;
-printf("\nSpace complexity is %d ",(5*4)+(n*4));t++;
-  printf("\ntime complexity is %d",t);t+1;
+    printf("Enter the size of array: ");
+    time++;
+    scanf("%d", &n);
+    time++;
+
+    int a[n];
+
+    for (i = 0;i < n;i++) {
+        time++;
+        printf("Enter %d elements: ", i+1);time++;
+        scanf("%d", &a[i]);
+        time++;
+    }
+
+    i = 0;
+    while (i < n) {
+        time++;
+        small = i;
+        j = i + 1;
+        time++;time++;
+
+        while (j < n) {
+            time++;
+            if (a[small] > a[j]) {
+                small = j;
+                time++;
+            }
+            j++;
+        }
+
+        if (i != small) {
+            temp = a[i];
+            time++;
+            a[i] = a[small];
+            time++;
+            a[small] = temp;
+            time++;
+        }
+        i++;
+    }
+
+    printf("The sorted elements are: \n");
+    time++;
+    for (i = 0;i < n;i++) {
+        time++;
+        printf("%d\n", a[i]);
+        time++;
+    }
+    time++;
+    printf("Space complexity = %d\nTime complexity = %d\n", 24 + (4 * n), time);
+    return 0;
 }
