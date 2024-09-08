@@ -1,119 +1,98 @@
-#include<stdlib.h>
-#include<ctype.h>
-#include<string.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
 #define MAX 100
 
-char st[MAX];
-int top=-1;
+// Stack for operators
+char stack[MAX];
+int top = -1;
 
-void push(char st[],char);
-char pop(char st[]);
-void InfixtoPostfix(char source[],char target[]);
-int getPriority(char);
-
-int main()
-{
-char infix[100],postfix[100];
-printf(“\n Enter any Infix Expression: ”);
-scanf(“%s”,infix);
-strcpy(postfix,””);
-InfixtoPostfix(infix,postfix);
-printf(“\n The corresponding postfix Expression is: ”);
-puts(postfix);
-return 0;
+// Function to push element to stack
+void push(char c) {
+    if (top == MAX - 1) {
+        printf("Stack overflow\n");
+    } else {
+        stack[++top] = c;
+    }
 }
 
-void InfixtoPostfix(char source[],char target[])
-{
-int i=0,j=0;
-char temp;
-strcpy(target,””);
-while(source[i]!=’\0’)
-{
- if(source[i]==’(‘)
- {
- push(st,source[i]);
- i++;
+// Function to pop element from stack
+char pop() {
+    if (top == -1) {
+        printf("Stack underflow\n");
+        return -1;
+    } else {
+        return stack[top--];
+    }
 }
 
-else if(source[i]==’)’)
-{
- while((top!=-1)&&(st[top]!=’(‘))
- {
-  target[j]=pop(st);
-  j++;
- }
- if(top==-1)
- {
-  printf(“\n  incorrect Expression”);
-return;
-}
-temp=pop(st);
-i++;
+// Function to return precedence of operators
+int precedence(char c) {
+    if (c == '+' || c == '-') {
+        return 1;
+    } else if (c == '*' || c == '/') {
+        return 2;
+    } else if (c == '^') {
+        return 3;
+    } else {
+        return 0;
+    }
 }
 
-else if(isdigit (source[i]) || isalpha(source[i]))
-{
-target[j]=source[i];
-j++;
-i++;
+// Function to check if the character is an operator
+int isOperator(char c) {
+    return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
 }
 
-else if(source[i]==’+’ || source[i]==’_’ || source[i]==’*’ || source[i]==’/’ || source[i]==’%’)
-{
-while((top!=-1)&&(st[top]!=’(‘)&&(getpriority(st[top])>getpriority(source[i])))
-{
-target[j]=pop(st);
-j++;
-}
-push(st,source[i]);
-i++;
+// Function to convert infix to postfix
+void infixToPostfix(char* infix) {
+    int i, j = 0;
+    char postfix[MAX];
+    
+    for (i = 0; infix[i] != '\0'; i++) {
+        char c = infix[i];
+
+        // If character is an operand, add it to the output
+        if (isalnum(c)) {
+            postfix[j++] = c;
+        }
+        // If character is '(', push it to stack
+        else if (c == '(') {
+            push(c);
+        }
+        // If character is ')', pop and add to output until '(' is encountered
+        else if (c == ')') {
+            while (top != -1 && stack[top] != '(') {
+                postfix[j++] = pop();
+            }
+            pop(); // Remove '(' from stack
+        }
+        // If character is an operator
+        else if (isOperator(c)) {
+            while (top != -1 && precedence(stack[top]) >= precedence(c)) {
+                postfix[j++] = pop();
+            }
+            push(c);
+        }
+    }
+
+    // Pop remaining operators from the stack
+    while (top != -1) {
+        postfix[j++] = pop();
+    }
+
+    postfix[j] = '\0'; // Null-terminate the postfix expression
+    printf("Postfix Expression: %s\n", postfix);
 }
 
-else
-{
-printf(“\n incorrect element in expression”);
-return;
-}
-}
+int main() {
+    char infix[MAX];
+    
+    printf("Enter an infix expression: ");
+    scanf("%s", infix);
 
-while((top!=-1)&&(st[top]!=’(’))
-{
-target[j]=pop(st);
-j++;
-}
-target[j]=’\0’;
-}
+    infixToPostfix(infix);
 
-int getPriority(char op)
-{
- if(op==’/’||op==’*’||op==’%’)
-return 1;
-else if(op==’+’||op==’%’)
-return 0;
-}
-
-void push(char st[],char val)
-{
-if(top==MAX-1)
-printf(“\n stack overflow”);
-else
-{
-top++;
-st[top]=val;
-}
-}
-
-char pop(char st[])
-{
-char val=’ ’;
-if(top==-1)
-printf(“\n stack underflow”);
-
-else
-{
-val=st[top];
-top--;
-}
-return val;
+    return 0;
 }
